@@ -1,0 +1,51 @@
+// Copyright by Ivan Engelbrecht 2020. All Rights reserved.
+
+#pragma once
+
+#include "CoreMinimal.h"
+#include "GameFramework/Pawn.h"
+#include "ND_PlayerPawn.generated.h"
+
+class AND_Planet;
+class AND_FloatingButton;
+
+UCLASS()
+class NAKATOMIDEMO_API AND_PlayerPawn : public APawn
+{
+	GENERATED_BODY()
+
+public:
+	// Sets default values for this pawn's properties
+	AND_PlayerPawn();
+
+protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+	TSubclassOf<AND_FloatingButton> SpawnButton; // Set in Blueprint
+
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+	TSubclassOf<AND_Planet> Earth; // Set in Blueprint
+	
+
+public:	
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
+
+	// Called to bind functionality to input
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
+	void DebugPrint(UARPlaneGeometry* Geometry);
+
+private:
+
+	TArray<UARPlaneGeometry*> AllPlanesArray;
+	TArray<UARPlaneGeometry*> CreatedPlanesArray;
+
+	void CreateButtonObject(FVector Location);
+
+	bool bHasSpawned = false;
+};
