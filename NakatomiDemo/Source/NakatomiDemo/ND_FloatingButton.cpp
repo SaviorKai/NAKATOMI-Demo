@@ -2,13 +2,19 @@
 
 
 #include "ND_FloatingButton.h"
+#include "ND_PlayerPawn.h"
 
 // Sets default values
 AND_FloatingButton::AND_FloatingButton()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+	
+}
 
+void AND_FloatingButton::SetMyOwningGeometry(UARPlaneGeometry* GeometryItemPassed)
+{
+	MyOwningGeometry = GeometryItemPassed;
 }
 
 // Called when the game starts or when spawned
@@ -25,3 +31,12 @@ void AND_FloatingButton::Tick(float DeltaTime)
 
 }
 
+void AND_FloatingButton::AskPlayerPawnToSpawnSystem()
+{
+	auto MyOwner = Cast<AND_PlayerPawn>(GetOwner());
+
+	if (!MyOwner) { return; }
+	if (!MyOwningGeometry) { return; }
+
+	MyOwner->CreateSolarSystem(MyOwningGeometry);
+}

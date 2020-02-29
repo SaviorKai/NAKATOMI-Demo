@@ -8,6 +8,7 @@
 
 class AND_Planet;
 class AND_FloatingButton;
+class UARPlaneGeometry;
 
 UCLASS()
 class NAKATOMIDEMO_API AND_PlayerPawn : public APawn
@@ -27,7 +28,7 @@ protected:
 	TSubclassOf<AND_FloatingButton> SpawnButton; // Set in Blueprint
 
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
-	TSubclassOf<AND_Planet> Earth; // Set in Blueprint
+	TSubclassOf<AND_Planet> SunPlanet; // Set in Blueprint
 	
 
 public:	
@@ -37,15 +38,14 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
-	void DebugPrint(UARPlaneGeometry* Geometry);
+	void CreateSolarSystem(UARPlaneGeometry* GeometryItem);  // Triggered by BP Widget button released
 
 private:
 
 	TArray<UARPlaneGeometry*> AllPlanesArray;
 	TArray<UARPlaneGeometry*> CreatedPlanesArray;
 
-	void CreateButtonObject(FVector Location);
+	void CreateButtonObject(FVector Location, UARPlaneGeometry* GeometryItem);
 
 	bool bHasSpawned = false;
 };

@@ -6,7 +6,7 @@
 #include "ND_Planet.h"
 #include "ND_FloatingButton.h"
 #include "Kismet/KismetSystemLibrary.h"
-#include "DrawDebugHelpers.h" /// REMOVE (for debugging only)
+#include "Kismet/GameplayStatics.h"
 
 
 // Sets default values
@@ -39,17 +39,6 @@ void AND_PlayerPawn::Tick(float DeltaTime)
 	/// Get All Geometries
 	TArray<UARPlaneGeometry*> MyGeometries = UARBlueprintLibrary::GetAllTrackedPlanes();
 	
-	////////// DEBUGGIN START ///////////////
-	/*
-	TArray<UARTrackedGeometry*> TestArray = UARBlueprintLibrary::GetAllGeometries();
-
-	for (auto item : TestArray)
-	{
-		DrawDebugSphere(GetWorld(),item->GetLocalToWorldTransform().GetLocation(), 32,32,FColor::Green,false,0.1f,0,1.0f);
-	}
-	*/
-	////////// DEBUGGIN END   ///////////////
-	
 	/// Spawnn Buttons and Check if it's already spawned against AllPlanesArray
 	if (MyGeometries.Num() > 0)
 	{
@@ -70,14 +59,14 @@ void AND_PlayerPawn::Tick(float DeltaTime)
 				if (!bExistsAlready)
 				{
 					AllPlanesArray.Add(item);
-					CreateButtonObject(item->GetLocalToWorldTransform().GetLocation());
+					CreateButtonObject(item->GetLocalToWorldTransform().GetLocation(), item);
 					//UE_LOG(LogTemp, Warning, TEXT("AllPlanesArray > 0, And we Spawned!! :D"));
 				}
 			}
 			else
 			{
 				AllPlanesArray.Add(item);
-				CreateButtonObject(item->GetLocalToWorldTransform().GetLocation());
+				CreateButtonObject(item->GetLocalToWorldTransform().GetLocation(), item);
 				//UE_LOG(LogTemp, Warning, TEXT("AllPlanesArray = 0, So we Spawned"));
 			}
 		}
@@ -91,7 +80,7 @@ void AND_PlayerPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 
 }
 
-void AND_PlayerPawn::CreateButtonObject(FVector Location)
+void AND_PlayerPawn::CreateButtonObject(FVector Location, UARPlaneGeometry* GeometryItem)
 {
 	if (!SpawnButton) { return; }
 	
@@ -99,7 +88,36 @@ void AND_PlayerPawn::CreateButtonObject(FVector Location)
 	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::DontSpawnIfColliding;
 
 	auto MyButton = GetWorld()->SpawnActor<AND_FloatingButton>(SpawnButton, Location, FRotator(0,0,0), SpawnParams);
-
-	UE_LOG(LogTemp, Warning, TEXT("Spawned button = %s"), *MyButton->GetName());
+	MyButton->SetMyOwningGeometry(GeometryItem);
+	MyButton->SetOwner(this);
 }
 
+void AND_PlayerPawn::CreateSolarSystem(UARPlaneGeometry* GeometryItem)
+{
+	if (!GeometryItem) { return; }
+
+	auto SpawnLocation = GeometryItem->GetLocalToWorldTransform().GetLocation();
+
+	if (!SunPlanet) { return; }
+
+	FActorSpawnParameters SpawnParams;
+	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+
+	// Spawn Solar System
+	auto MySolarSystem = GetWorld()->SpawnActor<AND_Planet>(SunPlanet, SpawnLocation, FRotator(0, 0, 0), SpawnParams);
+
+	// Update Spawned Bool to Stop Tracking
+	bHasSpawned = true;
+
+	// Destroy all Existing Spawn buttons
+	TArray<AActor*> OUT_TempButtonActorArray;
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), AND_FloatingButton::StaticClass(), OUT_TempButtonActorArray);
+	
+	if (OUT_TempButtonActorArray.Num() < 1) { return; }
+
+	for (auto item : OUT_TempButtonActorArray)
+	{
+		item->Destroy();
+	}
+
+}
