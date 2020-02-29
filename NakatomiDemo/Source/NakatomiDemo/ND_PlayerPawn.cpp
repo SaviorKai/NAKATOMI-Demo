@@ -6,6 +6,7 @@
 #include "ND_Planet.h"
 #include "ND_FloatingButton.h"
 #include "Kismet/KismetSystemLibrary.h"
+#include "DrawDebugHelpers.h" /// REMOVE (for debugging only)
 
 
 // Sets default values
@@ -37,7 +38,18 @@ void AND_PlayerPawn::Tick(float DeltaTime)
 
 	/// Get All Geometries
 	TArray<UARPlaneGeometry*> MyGeometries = UARBlueprintLibrary::GetAllTrackedPlanes();
+	
+	////////// DEBUGGIN START ///////////////
+	/*
+	TArray<UARTrackedGeometry*> TestArray = UARBlueprintLibrary::GetAllGeometries();
 
+	for (auto item : TestArray)
+	{
+		DrawDebugSphere(GetWorld(),item->GetLocalToWorldTransform().GetLocation(), 32,32,FColor::Green,false,0.1f,0,1.0f);
+	}
+	*/
+	////////// DEBUGGIN END   ///////////////
+	
 	/// Spawnn Buttons and Check if it's already spawned against AllPlanesArray
 	if (MyGeometries.Num() > 0)
 	{
@@ -58,15 +70,15 @@ void AND_PlayerPawn::Tick(float DeltaTime)
 				if (!bExistsAlready)
 				{
 					AllPlanesArray.Add(item);
-					CreateButtonObject(item->GetCenter());
-					UE_LOG(LogTemp, Warning, TEXT("AllPlanesArray > 0, And we Spawned!! :D"));
+					CreateButtonObject(item->GetLocalToWorldTransform().GetLocation());
+					//UE_LOG(LogTemp, Warning, TEXT("AllPlanesArray > 0, And we Spawned!! :D"));
 				}
 			}
 			else
 			{
 				AllPlanesArray.Add(item);
-				CreateButtonObject(item->GetCenter());
-				UE_LOG(LogTemp, Warning, TEXT("AllPlanesArray = 0, So we Spawned"));
+				CreateButtonObject(item->GetLocalToWorldTransform().GetLocation());
+				//UE_LOG(LogTemp, Warning, TEXT("AllPlanesArray = 0, So we Spawned"));
 			}
 		}
 	}
