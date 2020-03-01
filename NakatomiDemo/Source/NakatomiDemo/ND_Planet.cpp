@@ -2,6 +2,7 @@
 
 
 #include "ND_Planet.h"
+#include "Components/WidgetComponent.h"
 
 // Sets default values
 AND_Planet::AND_Planet()
@@ -22,6 +23,31 @@ void AND_Planet::BeginPlay()
 void AND_Planet::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
+
+FName AND_Planet::GetMyPlanetName()
+{
+	return PlanetName;
+}
+
+void AND_Planet::EnableDisableName()
+{
+	if (NameAlpha < 1)
+	{
+		NameAlpha = 1.0f;
+	}
+	else
+	{
+		NameAlpha = 0.0f;
+	}
+}
+
+float AND_Planet::GetNameAplha()
+{
+	return NameAlpha;
+}
+
+
+
+
 
