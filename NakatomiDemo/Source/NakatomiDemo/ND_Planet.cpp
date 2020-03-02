@@ -3,6 +3,7 @@
 
 #include "ND_Planet.h"
 #include "Components/WidgetComponent.h"
+#include "Components/StaticMeshComponent.h"
 
 // Sets default values
 AND_Planet::AND_Planet()
@@ -15,7 +16,7 @@ AND_Planet::AND_Planet()
 // Called when the game starts or when spawned
 void AND_Planet::BeginPlay()
 {
-	Super::BeginPlay();
+	Super::BeginPlay(); 
 	
 }
 

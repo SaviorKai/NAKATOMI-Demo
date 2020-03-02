@@ -39,4 +39,6 @@ public:
 
 private:
 	float NameAlpha = 1.0f;
+
+	
 };
