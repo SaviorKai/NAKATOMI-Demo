@@ -120,4 +120,7 @@ void AND_PlayerPawn::CreateSolarSystem(UARPlaneGeometry* GeometryItem)
 		item->Destroy();
 	}
 
+	/// Remove Intro Text
+	RemoveFindSurfaceText();
+
 }

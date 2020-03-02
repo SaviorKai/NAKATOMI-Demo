@@ -29,6 +29,9 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	TSubclassOf<AND_Planet> SunPlanet; // Set in Blueprint
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
+	void RemoveFindSurfaceText();
 	
 
 public:	
