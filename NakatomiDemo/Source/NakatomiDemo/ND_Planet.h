@@ -33,6 +33,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category="Setup")
 	FName PlanetName = FName("Planet");
 
+	UPROPERTY(BlueprintReadOnly, Category = "Setup")
+	float MeshTargetScale;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
