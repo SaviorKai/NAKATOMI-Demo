@@ -17,12 +17,6 @@ AND_Planet::AND_Planet()
 void AND_Planet::BeginPlay()
 {
 	Super::BeginPlay(); 
-
-	auto MyMesh = FindComponentByClass<UStaticMeshComponent>();
-
-	if (!MyMesh) { return; }
-
-	MeshTargetScale = MyMesh->GetComponentScale().X;
 	
 }
 
