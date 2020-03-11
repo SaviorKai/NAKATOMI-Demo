@@ -20,6 +20,16 @@ void AND_Planet::BeginPlay()
 	
 }
 
+void AND_Planet::SetIsFocusedSpawn(bool IsFocused)
+{
+	bIsFocusedSpawn = IsFocused;
+}
+
+bool AND_Planet::GetIsFocusedSpawn()
+{
+	return bIsFocusedSpawn;
+}
+
 // Called every frame
 void AND_Planet::Tick(float DeltaTime)
 {

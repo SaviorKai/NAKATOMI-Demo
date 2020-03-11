@@ -33,12 +33,23 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category="Setup")
 	FName PlanetName = FName("Planet");
 
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+	void SetIsFocusedSpawn(bool IsFocused);
+
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+	bool GetIsFocusedSpawn();
+
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Setup")   // Defined in BP, not C++ due to it being blueprint implementable.
+	void PhaseMeOut();
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 private:
 	float NameAlpha = 1.0f;
+
+	bool bIsFocusedSpawn = false;
 
 	
 };

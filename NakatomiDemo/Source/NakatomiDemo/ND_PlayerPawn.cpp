@@ -28,6 +28,11 @@ void AND_PlayerPawn::BeginPlay()
 
 }
 
+FVector AND_PlayerPawn::GetSolSpawnLocation()
+{
+	return SpawnLocation;
+}
+
 // Called every frame
 void AND_PlayerPawn::Tick(float DeltaTime)
 {
@@ -96,7 +101,7 @@ void AND_PlayerPawn::CreateSolarSystem(UARPlaneGeometry* GeometryItem)
 {
 	if (!GeometryItem) { return; }
 
-	auto SpawnLocation = GeometryItem->GetLocalToWorldTransform().GetLocation();
+	SpawnLocation = GeometryItem->GetLocalToWorldTransform().GetLocation();
 
 	if (!SunPlanet) { return; }
 

@@ -30,8 +30,11 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	TSubclassOf<AND_Planet> SunPlanet; // Set in Blueprint
 
-	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
+	UFUNCTION(BlueprintImplementableEvent, Category = "Setup") //// Defined in BP, not C++ due to it being blueprint implementable.
 	void RemoveFindSurfaceText();
+
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+	FVector GetSolSpawnLocation();
 	
 
 public:	
@@ -51,4 +54,6 @@ private:
 	void CreateButtonObject(FVector Location, UARPlaneGeometry* GeometryItem);
 
 	bool bHasSpawned = false;
+	FVector SpawnLocation = FVector(0, 0, 0);
+
 };
