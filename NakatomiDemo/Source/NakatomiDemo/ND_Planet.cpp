@@ -41,16 +41,14 @@ FName AND_Planet::GetMyPlanetName()
 	return PlanetName;
 }
 
-void AND_Planet::EnableDisableName()
+void AND_Planet::EnableName()
 {
-	if (NameAlpha < 1)
-	{
-		NameAlpha = 1.0f;
-	}
-	else
-	{
-		NameAlpha = 0.0f;
-	}
+	NameAlpha = 1.0f;
+}
+
+void AND_Planet::DisableName()
+{
+	NameAlpha = 0.0f;
 }
 
 float AND_Planet::GetNameAplha()

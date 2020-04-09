@@ -25,7 +25,10 @@ protected:
 	FName GetMyPlanetName();
 
 	UFUNCTION(BlueprintCallable, Category = "Setup")
-	void EnableDisableName();
+	void EnableName();
+
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+	void DisableName();
 
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	float GetNameAplha();

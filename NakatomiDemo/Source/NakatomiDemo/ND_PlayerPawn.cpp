@@ -129,3 +129,18 @@ void AND_PlayerPawn::CreateSolarSystem(UARPlaneGeometry* GeometryItem)
 	RemoveFindSurfaceText();
 
 }
+
+void AND_PlayerPawn::RespawnSolarSystem()
+{
+	// Check if planet is set in BP
+	if (!SunPlanet) { return; }
+	
+	// Setup Spawn Params
+	FActorSpawnParameters SpawnParams;
+	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+
+	// Spawn Solar System
+	auto MySolarSystem = GetWorld()->SpawnActor<AND_Planet>(SunPlanet, SpawnLocation, FRotator(0, 0, 0), SpawnParams);
+
+
+}

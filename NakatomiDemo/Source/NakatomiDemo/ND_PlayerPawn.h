@@ -45,6 +45,9 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	void CreateSolarSystem(UARPlaneGeometry* GeometryItem);  // Triggered by BP Widget button released
+	
+	UFUNCTION(BlueprintCallable, Category="Setup")
+	void RespawnSolarSystem(); 
 
 private:
 
