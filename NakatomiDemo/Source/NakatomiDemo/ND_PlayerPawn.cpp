@@ -101,6 +101,7 @@ void AND_PlayerPawn::CreateSolarSystem(UARPlaneGeometry* GeometryItem)
 {
 	if (!GeometryItem) { return; }
 
+	// Save Spawn location to Var
 	SpawnLocation = GeometryItem->GetLocalToWorldTransform().GetLocation();
 
 	if (!SunPlanet) { return; }
@@ -110,6 +111,9 @@ void AND_PlayerPawn::CreateSolarSystem(UARPlaneGeometry* GeometryItem)
 
 	// Spawn Solar System
 	auto MySolarSystem = GetWorld()->SpawnActor<AND_Planet>(SunPlanet, SpawnLocation, FRotator(0, 0, 0), SpawnParams);
+	
+	// Pin Sun Root Component to World Space
+	UARBlueprintLibrary::PinComponent(MySolarSystem->GetRootComponent(), GeometryItem->GetLocalToWorldTransform(), nullptr);
 
 	// Update Spawned Bool to Stop Tracking
 	bHasSpawned = true;
