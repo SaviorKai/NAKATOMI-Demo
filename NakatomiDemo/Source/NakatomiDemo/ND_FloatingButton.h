@@ -7,6 +7,7 @@
 #include "ND_FloatingButton.generated.h"
 
 class UARPlaneGeometry;
+class AND_PlayerPawn;
 
 UCLASS()
 class NAKATOMIDEMO_API AND_FloatingButton : public AActor
@@ -19,9 +20,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category="Setup")
 	void AskPlayerPawnToSpawnSystem();
-	
+
 	UFUNCTION(BlueprintCallable, Category = "Setup")
-	void SetMyOwningGeometry(UARPlaneGeometry* GeometryItemPassed);
+	void SetMyOwner(APawn* MyOwningPawn);
 
 protected:
 	// Called when the game starts or when spawned
@@ -32,6 +33,5 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 private:
-	
-	UARPlaneGeometry* MyOwningGeometry = nullptr;
+	AND_PlayerPawn* MyOwner = nullptr;
 };

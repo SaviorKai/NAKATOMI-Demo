@@ -41,62 +41,16 @@ bool AND_PlayerPawn::GetHasSpawned()
 	return bHasSpawned;
 }
 
-void AND_PlayerPawn::SetHasSpawned(bool booleanvalue)
+void AND_PlayerPawn::SetHasSpawned(bool HasSpawned)
 {
-	bHasSpawned = booleanvalue;
+	bHasSpawned = HasSpawned;
 }
 
 // Called every frame
 void AND_PlayerPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	
-	/// Skip if we have already spawned a System
-	if (bHasSpawned) { return; }
-	
 
-
-	/*******************************************************************************************************
-	 *OLD SPAWN MECHANIC BACKUP
-	 *******************************************************************************************************
-
-	/// Get All Geometries
-	TArray<UARPlaneGeometry*> MyGeometries = UARBlueprintLibrary::GetAllTrackedPlanes();
-	
-	/// Spawnn Buttons and Check if it's already spawned against AllPlanesArray
-	if (MyGeometries.Num() > 0)
-	{
-		for (auto item : MyGeometries)
-		{
-			if (AllPlanesArray.Num() >= 1)
-			{
-				bool bExistsAlready = false;
-
-				for (auto PlaneItem : AllPlanesArray)
-				{
-					if (item == PlaneItem)
-					{
-						bExistsAlready = true;
-					}
-				}
-
-				if (!bExistsAlready)
-				{
-					AllPlanesArray.Add(item);
-					CreateButtonObject(item->GetLocalToWorldTransform().GetLocation(), item);
-					//UE_LOG(LogTemp, Warning, TEXT("AllPlanesArray > 0, And we Spawned!! :D"));
-				}
-			}
-			else
-			{
-				AllPlanesArray.Add(item);
-				CreateButtonObject(item->GetLocalToWorldTransform().GetLocation(), item);
-				//UE_LOG(LogTemp, Warning, TEXT("AllPlanesArray = 0, So we Spawned"));
-			}
-		}
-	}
-	
-	********************************************************************************************************/
 }
 
 // Called to bind functionality to input
@@ -106,36 +60,19 @@ void AND_PlayerPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 
 }
 
-void AND_PlayerPawn::CreateButtonObject(FVector Location, UARPlaneGeometry* GeometryItem)
+void AND_PlayerPawn::CreateSolarSystem(FVector SpawnLocationArg)
 {
-	if (!SpawnButton) { return; }
-	
-	FActorSpawnParameters SpawnParams;
-	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::DontSpawnIfColliding;
-
-	auto MyButton = GetWorld()->SpawnActor<AND_FloatingButton>(SpawnButton, Location, FRotator(0,0,0), SpawnParams);
-	MyButton->SetMyOwningGeometry(GeometryItem);
-	MyButton->SetOwner(this);
-}
-
-void AND_PlayerPawn::CreateSolarSystem(UARPlaneGeometry* GeometryItem)
-{
-	if (!GeometryItem) { return; }
-
 	// Save Spawn location to Var
-	SpawnLocation = GeometryItem->GetLocalToWorldTransform().GetLocation();
-
+	SpawnLocation = SpawnLocationArg;
+	
+	// Check if the value is set in Blueprints before moving on
 	if (!SunPlanet) { return; }
 
+	// Spawn Solar System
 	FActorSpawnParameters SpawnParams;
 	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-
-	// Spawn Solar System
 	auto MySolarSystem = GetWorld()->SpawnActor<AND_Planet>(SunPlanet, SpawnLocation, FRotator(0, 0, 0), SpawnParams);
 	
-	// Pin Sun Root Component to World Space
-	UARBlueprintLibrary::PinComponent(MySolarSystem->GetRootComponent(), GeometryItem->GetLocalToWorldTransform(), nullptr);
-
 	// Update Spawned Bool to Stop Tracking
 	bHasSpawned = true;
 
@@ -152,7 +89,6 @@ void AND_PlayerPawn::CreateSolarSystem(UARPlaneGeometry* GeometryItem)
 
 	/// Remove Intro Text
 	RemoveFindSurfaceText();
-
 }
 
 void AND_PlayerPawn::RespawnSolarSystem()
@@ -166,6 +102,4 @@ void AND_PlayerPawn::RespawnSolarSystem()
 
 	// Spawn Solar System
 	auto MySolarSystem = GetWorld()->SpawnActor<AND_Planet>(SunPlanet, SpawnLocation, FRotator(0, 0, 0), SpawnParams);
-
-
 }

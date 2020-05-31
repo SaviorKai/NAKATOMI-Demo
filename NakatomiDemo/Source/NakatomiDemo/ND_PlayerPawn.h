@@ -51,7 +51,7 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	void CreateSolarSystem(UARPlaneGeometry* GeometryItem);  // Triggered by BP Widget button released
+	void CreateSolarSystem(FVector SpawnLocationArg);  // Triggered by BP Widget button released
 	
 	UFUNCTION(BlueprintCallable, Category="Setup")
 	void RespawnSolarSystem(); 
@@ -60,8 +60,6 @@ private:
 
 	TArray<UARPlaneGeometry*> AllPlanesArray;
 	TArray<UARPlaneGeometry*> CreatedPlanesArray;
-
-	void CreateButtonObject(FVector Location, UARPlaneGeometry* GeometryItem);
 
 	bool bHasSpawned = false;
 	FVector SpawnLocation = FVector(0, 0, 0);

@@ -12,11 +12,6 @@ AND_FloatingButton::AND_FloatingButton()
 	
 }
 
-void AND_FloatingButton::SetMyOwningGeometry(UARPlaneGeometry* GeometryItemPassed)
-{
-	MyOwningGeometry = GeometryItemPassed;
-}
-
 // Called when the game starts or when spawned
 void AND_FloatingButton::BeginPlay()
 {
@@ -31,12 +26,19 @@ void AND_FloatingButton::Tick(float DeltaTime)
 
 }
 
+void AND_FloatingButton::SetMyOwner(APawn* MyOwningPawn)
+{
+	if (Cast<AND_PlayerPawn>(MyOwningPawn))				//Pointer Protection
+	{
+		MyOwner = Cast<AND_PlayerPawn>(MyOwningPawn);
+	}
+}
+
 void AND_FloatingButton::AskPlayerPawnToSpawnSystem()
 {
-	auto MyOwner = Cast<AND_PlayerPawn>(GetOwner());
-
-	if (!MyOwner) { return; }
-	if (!MyOwningGeometry) { return; }
-
-	MyOwner->CreateSolarSystem(MyOwningGeometry);
+	if (!MyOwner) { return; } 
+	
+	MyOwner->CreateSolarSystem(GetActorLocation());
 }
+
+
