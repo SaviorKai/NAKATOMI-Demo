@@ -19,7 +19,8 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category="Setup")
 	void AskPlayerPawnToSpawnSystem();
-
+	
+	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void SetMyOwningGeometry(UARPlaneGeometry* GeometryItemPassed);
 
 protected:

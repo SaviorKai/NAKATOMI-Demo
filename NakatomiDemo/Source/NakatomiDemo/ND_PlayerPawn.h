@@ -6,6 +6,7 @@
 #include "GameFramework/Pawn.h"
 #include "ND_PlayerPawn.generated.h"
 
+
 class AND_Planet;
 class AND_FloatingButton;
 class UARPlaneGeometry;
@@ -35,6 +36,12 @@ protected:
 
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	FVector GetSolSpawnLocation();
+
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+	bool GetHasSpawned();
+	
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+	void SetHasSpawned(bool booleanvalue);
 	
 
 public:	

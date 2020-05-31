@@ -7,6 +7,9 @@
 #include "ND_FloatingButton.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "Kismet/GameplayStatics.h"
+#include "Engine/World.h"					// For LineTrace
+#include "Engine/EngineTypes.h"             // For FHitResult
+
 
 
 // Sets default values
@@ -33,13 +36,29 @@ FVector AND_PlayerPawn::GetSolSpawnLocation()
 	return SpawnLocation;
 }
 
+bool AND_PlayerPawn::GetHasSpawned()
+{
+	return bHasSpawned;
+}
+
+void AND_PlayerPawn::SetHasSpawned(bool booleanvalue)
+{
+	bHasSpawned = booleanvalue;
+}
+
 // Called every frame
 void AND_PlayerPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-	/// Skip if we have already spawned something
+	
+	/// Skip if we have already spawned a System
 	if (bHasSpawned) { return; }
+	
+
+
+	/*******************************************************************************************************
+	 *OLD SPAWN MECHANIC BACKUP
+	 *******************************************************************************************************
 
 	/// Get All Geometries
 	TArray<UARPlaneGeometry*> MyGeometries = UARBlueprintLibrary::GetAllTrackedPlanes();
@@ -76,6 +95,8 @@ void AND_PlayerPawn::Tick(float DeltaTime)
 			}
 		}
 	}
+	
+	********************************************************************************************************/
 }
 
 // Called to bind functionality to input
